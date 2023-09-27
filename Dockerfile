@@ -6,4 +6,4 @@ RUN git config --global user.email "example@example.com"
 COPY script.sh .
 RUN chmod +x script.sh
 RUN python3 -m pip install NikGapps
-ENTRYPOINT ["bash"]
+ENTRYPOINT ["bash", "script.sh"]
