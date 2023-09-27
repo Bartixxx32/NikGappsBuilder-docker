@@ -20,6 +20,7 @@ env:
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
 
+
 jobs:
   build:
 
@@ -72,7 +73,6 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
   test:
     runs-on: ubuntu-latest
     permissions:
@@ -84,12 +84,6 @@ jobs:
 
     needs: build  # This specifies that the 'test' job depends on the 'build' job
 
-    strategy:
-      matrix:
-        command:
-          - "docker run -v $PWD/Releases:/app/Releases -v $PWD/Data/13:/app/13 ghcr.io/bartixxx32/nikgappsbuilder-docker:main 13 core,basic"
-          - "docker run -v $PWD/Releases:/app/Releases -v $PWD/Data/13:/app/13 ghcr.io/bartixxx32/nikgappsbuilder-docker:main 12 core,basic"
-
     steps:
       - name: Wait for Build Job
         id: wait-for-build
@@ -98,5 +92,8 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v2
 
-      - name: Pull Docker Image and Run Tests
-        run: ${{ matrix.command }}
+      - name: Pull Docker Image
+        run: docker pull ghcr.io/bartixxx32/nikgappsbuilder-docker:main
+
+      - name: Run Tests
+        run: docker run -v $PWD/Releases:/app/Releases -v $PWD/Data/13:/app/13 ghcr.io/bartixxx32/nikgappsbuilder-docker:main 12,13 core,basic
