@@ -74,3 +74,27 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
+
+    needs: build  # This specifies that the 'test' job depends on the 'build' job
+
+    steps:
+      - name: Wait for Build Job
+        id: wait-for-build
+        run: echo "The build job is completed."
+
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Pull Docker Image
+        run: docker pull ghcr.io/bartixxx32/nikgappsbuilder-docker:main
+
+      - name: Run Tests
+        run: docker run -v $PWD/Releases:/app/Releases -v $PWD/Data/13:/app/13 ghcr.io/bartixxx32/nikgappsbuilder-docker:main 13 core
