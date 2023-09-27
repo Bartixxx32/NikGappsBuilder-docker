@@ -96,4 +96,4 @@ jobs:
         run: docker pull ghcr.io/bartixxx32/nikgappsbuilder-docker:main
 
       - name: Run Tests
-        run: docker run ghcr.io/bartixxx32/nikgappsbuilder-docker:main 12,13 core,basic
+        run: docker run -v $PWD/Releases:/app/Releases -v $PWD/Data/13:/app/13 ghcr.io/bartixxx32/nikgappsbuilder-docker:main 12,13 core,basic
