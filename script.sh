@@ -40,7 +40,8 @@ else
     10 "Android 10" \
     11 "Android 11" \
     12 "Android 12" \
-    13 "Android 13" 2> /tmp/first_page_choice || {
+    13 "Android 13" \
+    14 "Android 14" 2> /tmp/first_page_choice || {
     echo "Dialog canceled. Exiting..."
     exit 1
   }
