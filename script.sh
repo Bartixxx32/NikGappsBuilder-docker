@@ -11,8 +11,8 @@ validate_input() {
     exit 1
   fi
 
-  if ((input < 10 || input > 13)); then
-    echo "Error: First argument must be in the range from 10 to 13."
+  if ((input < 10 || input > 14)); then
+    echo "Error: First argument must be in the range from 10 to 14."
     exit 1
   fi
 }
